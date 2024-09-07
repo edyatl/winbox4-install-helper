@@ -22,7 +22,7 @@ This is a Bash script to automate the installation of Mikrotik WinBox4 on Linux 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com:edyatl/winbox4-install-helper.git
+   git clone https://github.com/edyatl/winbox4-install-helper.git
    ```
 
 2. Navigate to the repository directory:
@@ -56,7 +56,40 @@ This is a Bash script to automate the installation of Mikrotik WinBox4 on Linux 
 
 ## Uninstallation
 
-To uninstall WinBox4, you can manually remove the following:
+To completely uninstall WinBox4, you can use the provided uninstall script `winbox4_uninstall.sh`:
+
+1. Make the script executable:
+
+   ```bash
+   chmod +x winbox4_uninstall.sh
+   ```
+
+2. Run the script as root:
+
+   ```bash
+   sudo ./winbox4_uninstall.sh
+   ```
+
+### What the uninstall script does:
+
+1. **Removes the symlink**: Deletes the symlink `/usr/local/bin/winbox` used to launch WinBox from the terminal.
+2. **Removes the desktop entry**: Deletes the `.desktop` file at `/usr/share/applications/winbox4.desktop` used to launch WinBox from the application menu.
+3. **Removes the installation directory**: Deletes the WinBox4 installation folder located at `/opt/winbox4`.
+4. **Preserves user data**: The script does not automatically delete your saved `Addresses.cdb` file. It will notify you if the file is found at `$HOME/.local/share/MikroTik/WinBox/Addresses.cdb`, allowing you to decide if you want to remove it manually.
+
+### Manual Removal of User Data
+
+If you wish to remove your saved addresses and configuration data, you can manually delete the file:
+
+```bash
+rm -rf ~/.local/share/MikroTik/WinBox
+```
+
+After running the uninstall script and optionally removing user data, WinBox4 will be fully removed from your system.
+
+### Manual Uninstallation
+
+To uninstall WinBox4 without uninstall script, you can manually remove the following:
 
 1. Remove the symlink:
 
