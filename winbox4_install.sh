@@ -27,14 +27,22 @@ if ! command -v unzip &> /dev/null; then
 fi
 
 # Variables
+# Get the actual user who invoked sudo
+if [ -n "$SUDO_USER" ]; then
+    ORIGINAL_USER="$SUDO_USER"
+    ORIGINAL_HOME="/home/$SUDO_USER"
+else
+    ORIGINAL_USER=$(whoami)
+    ORIGINAL_HOME="$HOME"
+fi
 DOWNLOAD_URL="https://download.mikrotik.com/routeros/winbox/4.0beta4/WinBox_Linux.zip"
 DOWNLOAD_DIR=$(xdg-user-dir DOWNLOAD)  # Using xdg-user-dir to ensure localization support
 WINBOX_DIR="winbox4"
 WINBOX_INSTALL_DIR="/opt/$WINBOX_DIR"
 SYMLINK_PATH="/usr/local/bin/winbox"
 DESKTOP_FILE_PATH="/usr/share/applications/winbox4.desktop"
-PREVIOUS_ADDRESSES_PATH="$HOME/.winbox/drive_c/users/$(whoami)/AppData/Roaming/Mikrotik/Winbox/Addresses.cdb"
-NEW_ADDRESSES_PATH="$HOME/.local/share/MikroTik/WinBox/Addresses.cdb"
+PREVIOUS_ADDRESSES_PATH="$ORIGINAL_HOME/.winbox/drive_c/users/$ORIGINAL_USER/AppData/Roaming/Mikrotik/Winbox/Addresses.cdb"
+NEW_ADDRESSES_PATH="$ORIGINAL_HOME/.local/share/MikroTik/WinBox/Addresses.cdb"
 NEW_DOWNLOAD_URL=$(wget --https-only -qO- https://mikrotik.com/download | grep 'Linux</a></li>' | grep -oP 'href="\K[^"]+')
 
 # Step 0: Check if download URL is changed
