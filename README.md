@@ -9,6 +9,7 @@ This is a Bash script to automate the installation of Mikrotik WinBox4 on Linux 
 - Creates a symlink to `winbox` in `/usr/local/bin` for easy terminal access.
 - Adds a desktop entry in `/usr/share/applications` for launching from the application manager.
 - Migrates previous `Addresses.cdb` data from older installations (if found).
+- Automatically checks the Mikrotik download page for updated versions of WinBox4.
 - Avoids overwriting existing symlinks, desktop entries, and data.
 
 ## Prerequisites
@@ -47,12 +48,13 @@ This is a Bash script to automate the installation of Mikrotik WinBox4 on Linux 
 
 ### What the script does:
 
-1. **Download**: It downloads the official Mikrotik WinBox4 archive from the [Mikrotik website](https://download.mikrotik.com/routeros/winbox/4.0beta4/WinBox_Linux.zip).
+1. **Download**: It downloads the official Mikrotik WinBox4 archive from the [Mikrotik website](https://mikrotik.com/download).
 2. **Install**: Unpacks the downloaded archive and moves it to `/opt/winbox4`.
 3. **Symlink**: Creates a symlink from `/opt/winbox4/WinBox` to `/usr/local/bin/winbox` for easy command-line access.
 4. **Desktop Entry**: Adds a `.desktop` entry in `/usr/share/applications/winbox4.desktop` to allow launching WinBox from the application menu.
 5. **Data Migration**: Attempts to find previous `Addresses.cdb` data in `~/.winbox/drive_c/users/<user>/AppData/Roaming/Mikrotik/Winbox/Addresses.cdb` and copies it to the new installation at `~/.local/share/MikroTik/WinBox/Addresses.cdb`.
-6. **Avoids Overwriting**: If any symlink, desktop file, or address database already exists, the script skips these steps.
+6. **Version Check**: Automatically checks the Mikrotik download page for new versions of WinBox4 and updates the installation if a new version is found.
+7. **Avoids Overwriting**: If any symlink, desktop file, or address database already exists, the script skips these steps.
 
 ## Uninstallation
 
@@ -109,6 +111,15 @@ To uninstall WinBox4 without uninstall script, you can manually remove the follo
    sudo rm /usr/share/applications/winbox4.desktop
    ```
 
+## Changelog
+
+- **2024-09-09:**
+    - Added automatic checking of new WinBox4 versions from the Mikrotik download page.
+    - Improved script to detect and update the latest download link.
+
+- **2024-09-07:**
+    - Initial release with features to automate WinBox4 installation.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -116,3 +127,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Contributions
 
 Contributions are welcome! Please open an issue or submit a pull request if you have suggestions or improvements.
+
