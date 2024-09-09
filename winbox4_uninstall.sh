@@ -20,10 +20,18 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # Variables
+# Get the actual user who invoked sudo
+if [ -n "$SUDO_USER" ]; then
+    ORIGINAL_USER="$SUDO_USER"
+    ORIGINAL_HOME="/home/$SUDO_USER"
+else
+    ORIGINAL_USER=$(whoami)
+    ORIGINAL_HOME="$HOME"
+fi
 WINBOX_INSTALL_DIR="/opt/winbox4"
 SYMLINK_PATH="/usr/local/bin/winbox"
 DESKTOP_FILE_PATH="/usr/share/applications/winbox4.desktop"
-DATA_PATH="$HOME/.local/share/MikroTik/WinBox/Addresses.cdb"
+DATA_PATH="$ORIGINAL_HOME/.local/share/MikroTik/WinBox/Addresses.cdb"
 
 # Step 1: Remove the symlink (if exists)
 if [ -L "$SYMLINK_PATH" ]; then
