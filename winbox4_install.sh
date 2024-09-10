@@ -104,6 +104,8 @@ if [ -f "$PREVIOUS_ADDRESSES_PATH" ]; then
     else
         mkdir -p "$(dirname "$NEW_ADDRESSES_PATH")" || exit 1
         cp "$PREVIOUS_ADDRESSES_PATH" "$NEW_ADDRESSES_PATH" || exit 1
+        # change the ownership to the original user
+        chown "$ORIGINAL_USER":"$ORIGINAL_USER" "$NEW_ADDRESSES_PATH" || exit 1
         echo "Addresses.cdb has been successfully migrated to the new installation."
     fi
 else
