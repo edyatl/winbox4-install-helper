@@ -36,7 +36,7 @@ else
     ORIGINAL_HOME="$HOME"
 fi
 DOWNLOAD_URL="https://download.mikrotik.com/routeros/winbox/4.0beta4/WinBox_Linux.zip"
-DOWNLOAD_DIR=$(xdg-user-dir DOWNLOAD)  # Using xdg-user-dir to ensure localization support
+DOWNLOAD_DIR=$(sudo -u "$ORIGINAL_USER" xdg-user-dir DOWNLOAD)  # Using xdg-user-dir to ensure localization support
 WINBOX_DIR="winbox4"
 WINBOX_INSTALL_DIR="/opt/$WINBOX_DIR"
 SYMLINK_PATH="/usr/local/bin/winbox"
@@ -105,10 +105,10 @@ if [ -f "$PREVIOUS_ADDRESSES_PATH" ]; then
     if [ -f "$NEW_ADDRESSES_PATH" ]; then
         echo "Addresses.cdb already exists at $NEW_ADDRESSES_PATH, skipping migration."
     else
-        mkdir -p "$(dirname "$NEW_ADDRESSES_PATH")" || exit 1
+        sudo -u "$ORIGINAL_USER" mkdir -p "$(dirname "$NEW_ADDRESSES_PATH")" || exit 1
         cp "$PREVIOUS_ADDRESSES_PATH" "$NEW_ADDRESSES_PATH" || exit 1
         # change the ownership to the original user
-        chown -R "$ORIGINAL_USER":"$ORIGINAL_USER" "$MIKROTIK_DATA_PATH" || exit 1
+        chown "$ORIGINAL_USER":"$ORIGINAL_USER" "$NEW_ADDRESSES_PATH" || exit 1
         echo "Addresses.cdb has been successfully migrated to the new installation."
     fi
 else
