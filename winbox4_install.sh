@@ -42,7 +42,6 @@ WINBOX_INSTALL_DIR="/opt/$WINBOX_DIR"
 SYMLINK_PATH="/usr/local/bin/winbox"
 DESKTOP_FILE_PATH="/usr/share/applications/winbox4.desktop"
 PREVIOUS_ADDRESSES_PATH="$ORIGINAL_HOME/.winbox/drive_c/users/$ORIGINAL_USER/AppData/Roaming/Mikrotik/Winbox/Addresses.cdb"
-MIKROTIK_DATA_PATH="$ORIGINAL_HOME/.local/share/MikroTik"
 NEW_ADDRESSES_PATH="$ORIGINAL_HOME/.local/share/MikroTik/WinBox/Addresses.cdb"
 NEW_DOWNLOAD_URL=$(wget --https-only -qO- https://mikrotik.com/download | grep 'Linux</a></li>' | grep -oP 'href="\K[^"]+')
 
@@ -55,13 +54,11 @@ fi
 # Step 1: Download the official archive
 echo "Downloading WinBox4 archive..."
 cd "$DOWNLOAD_DIR" || exit 1
-wget "$DOWNLOAD_URL" -O WinBox_Linux.zip || exit 1
-# change the ownership to the original user
-chown "$ORIGINAL_USER":"$ORIGINAL_USER" WinBox_Linux.zip || exit 1
+sudo -u "$ORIGINAL_USER" wget "$DOWNLOAD_URL" -O WinBox_Linux.zip || exit 1
 
 # Step 2: Unpack archive to 'winbox4'
 echo "Unpacking WinBox4 archive..."
-unzip WinBox_Linux.zip -d "$WINBOX_DIR" || exit 1
+sudo -u "$ORIGINAL_USER" unzip WinBox_Linux.zip -d "$WINBOX_DIR" || exit 1
 
 # Step 3: Move 'winbox4' to /opt/ (skip if already exists)
 if [ -d "$WINBOX_INSTALL_DIR" ]; then
@@ -106,9 +103,7 @@ if [ -f "$PREVIOUS_ADDRESSES_PATH" ]; then
         echo "Addresses.cdb already exists at $NEW_ADDRESSES_PATH, skipping migration."
     else
         sudo -u "$ORIGINAL_USER" mkdir -p "$(dirname "$NEW_ADDRESSES_PATH")" || exit 1
-        cp "$PREVIOUS_ADDRESSES_PATH" "$NEW_ADDRESSES_PATH" || exit 1
-        # change the ownership to the original user
-        chown "$ORIGINAL_USER":"$ORIGINAL_USER" "$NEW_ADDRESSES_PATH" || exit 1
+        sudo -u "$ORIGINAL_USER" cp "$PREVIOUS_ADDRESSES_PATH" "$NEW_ADDRESSES_PATH" || exit 1
         echo "Addresses.cdb has been successfully migrated to the new installation."
     fi
 else
