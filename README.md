@@ -113,6 +113,14 @@ To uninstall WinBox4 without uninstall script, you can manually remove the follo
 
 ## Changelog
 
+- **2024-09-10:**
+- Improved handling of `$HOME` and user environment when running the script with `sudo`:
+  - The script now correctly identifies the original user invoking `sudo` using the `SUDO_USER` environment variable.
+  - Updated file paths for downloading WinBox4 and migrating `Addresses.cdb` to reflect the original user's home directory, ensuring correct ownership and avoiding root's home.
+  - Adjusted the `xdg-user-dir` call to use the original user’s environment by running it with `sudo -u $ORIGINAL_USER`.
+  - Ensured file operations like `wget`, `unzip`, `mkdir`, and `cp` are executed as the original user to avoid permission issues.
+- Applied similar changes to the uninstall script to handle user-specific data correctly during the uninstallation process.
+
 - **2024-09-09:**
     - Added automatic checking of new WinBox4 versions from the Mikrotik download page.
     - Improved script to detect and update the latest download link.
