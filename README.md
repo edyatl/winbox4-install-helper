@@ -111,6 +111,16 @@ To uninstall WinBox4 without uninstall script, you can manually remove the follo
    sudo rm /usr/share/applications/winbox4.desktop
    ```
 
+## Update
+
+To update WinBox4 to a new version, first run the uninstall script, then reinstall the latest version using the install script:
+
+```bash
+sudo ./winbox4_uninstall.sh && sudo ./winbox4_install.sh
+```
+
+This ensures that the previous installation is completely removed before installing the updated version. The script will automatically download the latest WinBox4 version available from Mikrotik’s official download page.
+
 ## Changelog
 
 - **2024-09-10:**
