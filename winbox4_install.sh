@@ -35,7 +35,7 @@ else
     ORIGINAL_USER=$(whoami)
     ORIGINAL_HOME="$HOME"
 fi
-DOWNLOAD_URL="https://download.mikrotik.com/routeros/winbox/4.0beta4/WinBox_Linux.zip"
+DOWNLOAD_URL="https://download.mikrotik.com/routeros/winbox/4.1/WinBox_Linux.zip"
 DOWNLOAD_DIR=$(sudo -u "$ORIGINAL_USER" xdg-user-dir DOWNLOAD)  # Using xdg-user-dir to ensure localization support
 WINBOX_DIR="winbox4"
 WINBOX_INSTALL_DIR="/opt/$WINBOX_DIR"
