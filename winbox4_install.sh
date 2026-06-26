@@ -90,6 +90,8 @@ Icon=$WINBOX_INSTALL_DIR/assets/img/winbox.png
 Exec=$WINBOX_INSTALL_DIR/WinBox
 Comment=Mikrotik WinBox GUI for Router Management
 Categories=Network;System;
+Keywords=mikrotik;winbox;
+StartupWMClass=WinBox
 EOL
 fi
 
